@@ -26,7 +26,7 @@ class CineApp extends StatelessWidget {
     // Quando o tema muda, o MaterialApp redesenha e o app inteiro troca de cor
     return Observer(
       builder: (_) => MaterialApp(
-        title: 'Cine MobX',
+        title: 'MobxCine',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,

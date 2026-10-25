@@ -1,6 +1,6 @@
 {
-    "name": "mobx_cine",
-    "short_name": "mobx_cine",
+    "name": "MobxCine",
+    "short_name": "MobxCine",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
