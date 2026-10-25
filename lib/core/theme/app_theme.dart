@@ -1,18 +1,32 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static const _seed = Color(0xFFE50914); // vermelho cinema
+  // Cores tiradas do ícone do app
+  static const _purple = Color(0xFF592B82); // roxo do fundo
+  static const _coral = Color(0xFFFF6B6B); // coral do assento
+  static const _cream = Color(0xFFF4F1EA); // creme da poltrona
 
   static ThemeData get light => _build(Brightness.light);
   static ThemeData get dark => _build(Brightness.dark);
 
   static ThemeData _build(Brightness brightness) {
-    // Gera uma paleta completa a partir de UMA cor
-    final scheme = ColorScheme.fromSeed(seedColor: _seed, brightness: brightness);
+    final isLight = brightness == Brightness.light;
+
+    // Gera uma paleta completa a partir do roxo e depois fixa as cores principais do ícone
+    final scheme = ColorScheme.fromSeed(seedColor: _purple, brightness: brightness).copyWith(
+      // No claro usa o roxo puro; no escuro o roxo gerado (mais claro) já tem bom contraste
+      primary: isLight ? _purple : null,
+      onPrimary: isLight ? _cream : null,
+      secondary: _coral,
+      onSecondary: const Color(0xFF3A0A0A),
+      // Fundo creme no tema claro, como a poltrona do ícone
+      surface: isLight ? _cream : null,
+    );
 
     return ThemeData(
       useMaterial3: true,
       colorScheme: scheme,
+      scaffoldBackgroundColor: scheme.surface,
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         border: OutlineInputBorder(
