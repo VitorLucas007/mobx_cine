@@ -8,6 +8,8 @@ import 'package:mobx/mobx.dart';
 
 part 'auth_store.g.dart';
 
+/// STORE da autenticação: guarda quem está logado e executa login, cadastro e logout.
+/// É singleton: a mesma instância é usada pelo app inteiro (splash, login, home).
 class AuthStore = _AuthStoreBase with _$AuthStore;
 
 abstract class _AuthStoreBase with Store {
@@ -41,6 +43,7 @@ abstract class _AuthStoreBase with Store {
   @action
   void clearError() => errorMessage = null;
 
+  /// Chamado pela splash: se já existe sessão salva, preenche o `user`.
   @action
   Future<void> checkSession() async {
     user = await _getCurrentUser();

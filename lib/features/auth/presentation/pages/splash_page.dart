@@ -17,6 +17,8 @@ class _SplashPageState extends State<SplashPage> {
     _decideRoute();
   }
 
+  /// Pergunta ao AuthStore se há sessão salva e abre a home (logado) ou o login (não logado).
+  /// O delay de 800ms só serve para a logo aparecer um instante.
   Future<void> _decideRoute() async {
     final auth = getIt<AuthStore>();
     await auth.checkSession();
@@ -25,6 +27,7 @@ class _SplashPageState extends State<SplashPage> {
     // Depois de um "await", sempre confira se a tela ainda existe
     if (!mounted) return;
 
+    // pushReplacement troca a splash pela próxima tela, então o botão "voltar" não volta para ela
     Navigator.pushReplacementNamed(
       context,
       auth.isLoggedIn ? AppRoutes.home : AppRoutes.login,

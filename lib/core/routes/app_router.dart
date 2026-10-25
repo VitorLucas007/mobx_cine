@@ -9,8 +9,11 @@ import 'package:mobx_cine/features/tickets/presentation/pages/result_page.dart';
 import 'package:mobx_cine/features/tickets/presentation/pages/seat_selection_page.dart';
 import 'package:flutter/material.dart';
 
+/// Liga cada nome de rota à sua tela.
 class AppRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
+    // settings.name = nome da rota; settings.arguments = dado enviado para a tela
+    // (aqui, o Movie escolhido ou o resultado da compra).
     final Widget page = switch (settings.name) {
       AppRoutes.splash => const SplashPage(),
       AppRoutes.login => const LoginPage(),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:mobx_cine/features/tickets/data/models/ticket_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Guarda os ingressos comprados no aparelho (como lista em JSON, dentro do SharedPreferences).
 class TicketLocalDataSource {
   TicketLocalDataSource(this._prefs);
 
@@ -17,6 +18,7 @@ class TicketLocalDataSource {
         .toList();
   }
 
+  /// Lê a lista, adiciona o novo ingresso no fim e salva a lista inteira de volta.
   Future<void> save(TicketModel ticket) async {
     final all = getAll()..add(ticket);
     await _prefs.setString(_key, jsonEncode(all.map((t) => t.toJson()).toList()));

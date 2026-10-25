@@ -6,13 +6,16 @@ import 'package:mobx_cine/core/theme/theme_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
+/// PONTO DE ENTRADA: é a primeira função que roda quando o app abre.
 Future<void> main() async {
   // Necessário antes de usar plugins (SharedPreferences) no main
   WidgetsFlutterBinding.ensureInitialized();
+  // Cria e registra todas as dependências (stores, repositórios, etc.) antes de abrir a primeira tela
   await setupDependencies();
   runApp(const CineApp());
 }
 
+/// Widget raiz: configura tema, rota inicial e o mapa de rotas.
 class CineApp extends StatelessWidget {
   const CineApp({super.key});
 
@@ -28,7 +31,8 @@ class CineApp extends StatelessWidget {
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
         themeMode: themeStore.themeMode,
-        initialRoute: AppRoutes.splash,
+        initialRoute: AppRoutes.splash, // o app sempre começa pela splash
+        // Toda navegação por nome passa por aqui para descobrir qual tela abrir
         onGenerateRoute: AppRouter.onGenerateRoute,
       ),
     );

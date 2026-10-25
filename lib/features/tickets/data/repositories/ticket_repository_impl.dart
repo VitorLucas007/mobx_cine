@@ -8,6 +8,8 @@ import 'package:mobx_cine/features/tickets/domain/entities/cinema_room.dart';
 import 'package:mobx_cine/features/tickets/domain/entities/ticket.dart';
 import 'package:mobx_cine/features/tickets/domain/repositories/ticket_repository.dart';
 
+/// Simula um "servidor de ingressos": assentos vendidos, pagamento e erros.
+/// Tudo é de mentirinha, mas se comporta como uma API real (demora e pode falhar).
 class TicketRepositoryImpl implements TicketRepository {
   TicketRepositoryImpl(this._local);
 
@@ -24,12 +26,14 @@ class TicketRepositoryImpl implements TicketRepository {
   }
 
   Set<String> _occupiedSeats(int movieId, String time) {
-    // Assentos "já vendidos" de mentirinha, mas sempre iguais para o mesmo filme+horário
+    // Assentos "já vendidos" de mentirinha, mas sempre iguais para o mesmo filme+horário.
+    // Truque: o "seed" (semente) é um número calculado a partir do filme e do horário.
+    // Um Random com a mesma semente sempre sorteia a mesma sequência, então o resultado se repete.
     final seed = (movieId * 31 + time.codeUnits.fold<int>(0, (a, b) => (a * 31 + b) % 100000)) % 100000;
     final fake = Random(seed);
     final occupied = <String>{
       for (final id in CinemaRoom.allSeatIds)
-        if (fake.nextDouble() < 0.25) id,
+        if (fake.nextDouble() < 0.25) id, // cada assento tem 25% de chance de estar ocupado
     };
 
     // + os assentos que o próprio usuário já comprou
@@ -53,6 +57,7 @@ class TicketRepositoryImpl implements TicketRepository {
       throw const AppException('Pagamento recusado. Tente novamente.');
     }
 
+    // Confere de novo na hora de pagar: alguém pode ter pegado o assento enquanto você decidia
     final occupied = _occupiedSeats(movie.id, time);
     final taken = seats.where(occupied.contains).toList();
     if (taken.isNotEmpty) {

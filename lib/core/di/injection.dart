@@ -23,6 +23,17 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// INJEÇÃO DE DEPENDÊNCIAS: em vez de cada classe criar o que precisa com `new`,
+/// registramos tudo aqui uma vez e pedimos com `getIt<Tipo>()` em qualquer lugar.
+/// Os parâmetros `getIt()` vazios são preenchidos automaticamente pelo tipo esperado no construtor.
+///
+/// Ordem da montagem (de baixo para cima):
+///   DataSource → Repository → UseCase → Store → Tela
+///
+/// Tipos de registro:
+///   registerSingleton     → criado agora, um único objeto para o app inteiro
+///   registerLazySingleton → um único objeto, mas só criado na primeira vez que for pedido
+///   registerFactory       → um objeto novo a cada pedido
 final getIt = GetIt.instance;
 
 Future<void> setupDependencies() async {
@@ -37,6 +48,7 @@ Future<void> setupDependencies() async {
   // ───── Auth ─────
   getIt
     ..registerLazySingleton<AuthLocalDataSource>(() => AuthLocalDataSource(getIt()))
+    // Quem pedir AuthRepository (o contrato) recebe a AuthRepositoryImpl (a implementação)
     ..registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(getIt()))
     ..registerFactory(() => LoginUseCase(getIt()))
     ..registerFactory(() => RegisterUseCase(getIt()))

@@ -24,12 +24,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _store.loadMovies();
+    _store.loadMovies(); // começa a buscar os filmes assim que a tela abre
   }
 
   Future<void> _logout() async {
     await _auth.logout();
     if (!mounted) return;
+    // (_) => false remove TODAS as telas anteriores: depois de sair, "voltar" não reabre a home
     Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (_) => false);
   }
 
@@ -78,12 +79,14 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
+          // Observer: redesenha só esta área quando o estado da store (state, filteredMovies) muda
           Expanded(child: Observer(builder: (_) => _buildBody())),
         ],
       ),
     );
   }
 
+  /// Desenha a lista conforme o estado da store: carregando, erro ou sucesso.
   Widget _buildBody() {
     switch (_store.state) {
       case ViewState.initial:

@@ -6,6 +6,9 @@ import 'package:mobx/mobx.dart';
 
 part 'movies_store.g.dart';
 
+/// STORE (MobX): guarda o estado da tela Home e as ações que o alteram.
+/// A tela não busca dados: ela chama a store e se redesenha quando o estado muda.
+// Esta linha junta a classe base com o código gerado em movies_store.g.dart
 class MoviesStore = _MoviesStoreBase with _$MoviesStore;
 
 abstract class _MoviesStoreBase with Store {
@@ -36,6 +39,7 @@ abstract class _MoviesStoreBase with Store {
   @action
   void setQuery(String value) => query = value;
 
+  /// Busca os filmes e atualiza o estado: loading → success (ou error).
   @action
   Future<void> loadMovies() async {
     state = ViewState.loading;
@@ -47,9 +51,11 @@ abstract class _MoviesStoreBase with Store {
         ..addAll(result);
       state = ViewState.success;
     } on AppException catch (e) {
+      // Erro conhecido: já vem com mensagem amigável
       errorMessage = e.message;
       state = ViewState.error;
     } catch (_) {
+      // Qualquer outro erro inesperado
       errorMessage = 'Algo deu errado ao carregar os filmes.';
       state = ViewState.error;
     }

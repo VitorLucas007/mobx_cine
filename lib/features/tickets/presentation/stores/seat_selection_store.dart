@@ -10,6 +10,8 @@ import 'package:mobx/mobx.dart';
 
 part 'seat_selection_store.g.dart';
 
+/// STORE da tela de assentos: horário escolhido, assentos ocupados/selecionados,
+/// total a pagar e a compra. Recebe o filme no construtor (veja o registro no injection.dart).
 class SeatSelectionStore = _SeatSelectionStoreBase with _$SeatSelectionStore;
 
 abstract class _SeatSelectionStoreBase with Store {

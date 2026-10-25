@@ -4,6 +4,8 @@ import 'package:mobx_cine/features/tickets/domain/entities/cinema_room.dart';
 import 'package:mobx_cine/features/tickets/domain/entities/ticket.dart';
 import 'package:mobx_cine/features/tickets/domain/repositories/ticket_repository.dart';
 
+/// CASO DE USO: comprar ingresso. Valida as regras ANTES de chamar o repositório,
+/// assim uma compra inválida nem chega a ser enviada.
 class PurchaseTicketUseCase {
   const PurchaseTicketUseCase(this._repository);
 

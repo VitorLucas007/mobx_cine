@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 part 'theme_store.g.dart';
 
+/// STORE do tema: guarda se o modo escuro está ligado e lembra a escolha ao fechar o app.
 class ThemeStore = _ThemeStoreBase with _$ThemeStore;
 
 abstract class _ThemeStoreBase with Store {
