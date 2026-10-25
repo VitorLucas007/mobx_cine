@@ -1,4 +1,8 @@
-# Cine MobX 🎬
+<p align="center">
+  <img src="docs/icon.png" alt="Ícone do MobxCine" width="140">
+</p>
+
+# MobxCine 🎬
 
 App em Flutter para ver os filmes em cartaz e comprar ingressos escolhendo o horário e os assentos. Foi feito para estudar **MobX** (gerenciamento de estado) e **Clean Architecture**.
 
